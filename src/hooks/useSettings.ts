@@ -47,7 +47,10 @@ export function useSettings(userId: string | null): UseSettingsResult {
   const persist = useCallback(
     async (next: { equip_set?: EquipmentId[]; quick_mode?: boolean }) => {
       if (!userId) return;
-      await supabase.from('user_settings').upsert({ user_id: userId, equip_set: equipSet, quick_mode: quickMode, ...next });
+      const { error } = await supabase
+        .from('user_settings')
+        .upsert({ user_id: userId, equip_set: equipSet, quick_mode: quickMode, ...next });
+      if (error) throw error;
     },
     [userId, equipSet, quickMode]
   );

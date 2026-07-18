@@ -59,4 +59,26 @@ describe('useLogs', () => {
     expect(deleteMock).toHaveBeenCalled();
     expect(eqDeleteMock).toHaveBeenCalledWith('user_id', 'user-1');
   });
+
+  it('addLog throws when the insert fails', async () => {
+    insertMock.mockResolvedValue({ error: { message: 'boom' } });
+    const { result } = renderHook(() => useLogs('user-1'));
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    await expect(
+      act(async () => {
+        await result.current.addLog({ ex_id: 'ctw', skill: 'handstand', type: 'hold', value: 40 });
+      })
+    ).rejects.toThrow();
+  });
+
+  it('wipe throws when the delete fails', async () => {
+    eqDeleteMock.mockResolvedValue({ error: { message: 'boom' } });
+    const { result } = renderHook(() => useLogs('user-1'));
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    await expect(
+      act(async () => {
+        await result.current.wipe();
+      })
+    ).rejects.toThrow();
+  });
 });

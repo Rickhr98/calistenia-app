@@ -48,4 +48,26 @@ describe('useSettings', () => {
       expect.objectContaining({ user_id: 'user-1', equip_set: ['floor', 'pullbar'] })
     );
   });
+
+  it('setEquipSet throws when the upsert fails', async () => {
+    upsertMock.mockResolvedValue({ error: { message: 'boom' } });
+    const { result } = renderHook(() => useSettings('user-1'));
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    await expect(
+      act(async () => {
+        await result.current.setEquipSet(['floor', 'pullbar']);
+      })
+    ).rejects.toThrow();
+  });
+
+  it('setQuickMode throws when the upsert fails', async () => {
+    upsertMock.mockResolvedValue({ error: { message: 'boom' } });
+    const { result } = renderHook(() => useSettings('user-1'));
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    await expect(
+      act(async () => {
+        await result.current.setQuickMode(true);
+      })
+    ).rejects.toThrow();
+  });
 });

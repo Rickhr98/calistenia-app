@@ -58,22 +58,34 @@ export default function App() {
 
   const handleSaveHold = async (value: number) => {
     if (!timerEx) return;
-    await addLog({ ex_id: timerEx.id, skill: timerEx.skill, type: 'hold', value });
-    showToast(`Guardado: ${value}s`);
+    try {
+      await addLog({ ex_id: timerEx.id, skill: timerEx.skill, type: 'hold', value });
+      showToast(`Guardado: ${value}s`);
+    } catch {
+      showToast('No se pudo guardar 😕');
+    }
     setTimerEx(null);
   };
 
   const handleSaveReps = async (value: number) => {
     if (!repsEx) return;
-    await addLog({ ex_id: repsEx.id, skill: repsEx.skill, type: 'reps', value });
-    showToast(`Guardado: ${value} reps`);
+    try {
+      await addLog({ ex_id: repsEx.id, skill: repsEx.skill, type: 'reps', value });
+      showToast(`Guardado: ${value} reps`);
+    } catch {
+      showToast('No se pudo guardar 😕');
+    }
     setRepsEx(null);
   };
 
   const handleWipe = async () => {
     if (!window.confirm('¿Borrar todos tus registros? No se puede deshacer.')) return;
-    await wipe();
-    showToast('Registros borrados');
+    try {
+      await wipe();
+      showToast('Registros borrados');
+    } catch {
+      showToast('No se pudieron borrar los registros 😕');
+    }
   };
 
   const howToEx = howToId ? findResolved(howToId) : null;

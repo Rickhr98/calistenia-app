@@ -32,7 +32,8 @@ export function useLogs(userId: string | null): UseLogsResult {
   const addLog = useCallback(
     async (entry: Pick<LogEntry, 'ex_id' | 'skill' | 'type' | 'value'>) => {
       if (!userId) return;
-      await supabase.from('logs').insert({ ...entry, user_id: userId });
+      const { error } = await supabase.from('logs').insert({ ...entry, user_id: userId });
+      if (error) throw error;
       await refresh();
     },
     [userId, refresh]
@@ -40,7 +41,8 @@ export function useLogs(userId: string | null): UseLogsResult {
 
   const wipe = useCallback(async () => {
     if (!userId) return;
-    await supabase.from('logs').delete().eq('user_id', userId);
+    const { error } = await supabase.from('logs').delete().eq('user_id', userId);
+    if (error) throw error;
     await refresh();
   }, [userId, refresh]);
 
