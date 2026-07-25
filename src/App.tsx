@@ -121,7 +121,7 @@ export default function App() {
       </main>
 
       <EquipmentSheet open={equipOpen} onOpenChange={setEquipOpen} equipSet={equipSet} onChange={setEquipSet} />
-      <HowToSheet open={!!howToId} onOpenChange={(o) => !o && setHowToId(null)} name={howToEx?.name ?? ''} hw={howToEx?.hw ?? null} />
+      <HowToSheet open={!!howToId} onOpenChange={(o) => !o && setHowToId(null)} name={howToEx?.name ?? ''} hw={howToEx?.hw ?? null} exerciseId={howToId} />
       {timerEx && (
         <TimerSheet
           open={!!timerEx}

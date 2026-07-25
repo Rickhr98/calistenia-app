@@ -1,0 +1,353 @@
+/* Pull-ups (Dominadas) */
+.anim-pull .shoulder-l {
+  animation: pull-shoulder-l 1.4s ease-in-out infinite;
+}
+
+.anim-pull .elbow-l {
+  animation: pull-elbow-l 1.4s ease-in-out infinite;
+}
+
+.anim-pull .shoulder-r {
+  animation: pull-shoulder-r 1.4s ease-in-out infinite;
+}
+
+.anim-pull .elbow-r {
+  animation: pull-elbow-r 1.4s ease-in-out infinite;
+}
+
+@keyframes pull-shoulder-l {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-65deg);
+  }
+}
+
+@keyframes pull-elbow-l {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-80deg);
+  }
+}
+
+@keyframes pull-shoulder-r {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(65deg);
+  }
+}
+
+@keyframes pull-elbow-r {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(80deg);
+  }
+}
+
+/* Pike Push-ups */
+.anim-pike .torso {
+  animation: pike-torso 1.2s ease-in-out infinite;
+}
+
+.anim-pike .shoulder-l {
+  animation: pike-shoulder-l 1.2s ease-in-out infinite;
+}
+
+.anim-pike .elbow-l {
+  animation: pike-elbow-l 1.2s ease-in-out infinite;
+}
+
+.anim-pike .shoulder-r {
+  animation: pike-shoulder-r 1.2s ease-in-out infinite;
+}
+
+.anim-pike .elbow-r {
+  animation: pike-elbow-r 1.2s ease-in-out infinite;
+}
+
+.anim-pike .hip-l {
+  animation: pike-hip-l 1.2s ease-in-out infinite;
+}
+
+.anim-pike .hip-r {
+  animation: pike-hip-r 1.2s ease-in-out infinite;
+}
+
+@keyframes pike-torso {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(50deg);
+  }
+}
+
+@keyframes pike-shoulder-l {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-45deg);
+  }
+}
+
+@keyframes pike-elbow-l {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-60deg);
+  }
+}
+
+@keyframes pike-shoulder-r {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(45deg);
+  }
+}
+
+@keyframes pike-elbow-r {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(60deg);
+  }
+}
+
+@keyframes pike-hip-l {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(20deg);
+  }
+}
+
+@keyframes pike-hip-r {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-20deg);
+  }
+}
+
+/* Lunges (Zancadas) */
+.anim-lunge .torso {
+  animation: lunge-torso 1.4s ease-in-out infinite;
+}
+
+.anim-lunge .hip-l {
+  animation: lunge-hip-l 1.4s ease-in-out infinite;
+}
+
+.anim-lunge .knee-l {
+  animation: lunge-knee-l 1.4s ease-in-out infinite;
+}
+
+.anim-lunge .hip-r {
+  animation: lunge-hip-r 1.4s ease-in-out infinite;
+}
+
+.anim-lunge .knee-r {
+  animation: lunge-knee-r 1.4s ease-in-out infinite;
+}
+
+@keyframes lunge-torso {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(15px);
+  }
+}
+
+@keyframes lunge-hip-l {
+  0%, 100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(-60deg);
+  }
+}
+
+@keyframes lunge-knee-l {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-70deg);
+  }
+}
+
+@keyframes lunge-hip-r {
+  0%, 100% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(30deg);
+  }
+}
+
+@keyframes lunge-knee-r {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(20deg);
+  }
+}
+
+/* Hollow Body Hold */
+.anim-hollow .torso {
+  animation: hollow-torso 2s ease-in-out infinite;
+}
+
+.anim-hollow .shoulder-l {
+  animation: hollow-shoulder-l 2s ease-in-out infinite;
+}
+
+.anim-hollow .shoulder-r {
+  animation: hollow-shoulder-r 2s ease-in-out infinite;
+}
+
+.anim-hollow .hip-l {
+  animation: hollow-hip-l 2s ease-in-out infinite;
+}
+
+.anim-hollow .hip-r {
+  animation: hollow-hip-r 2s ease-in-out infinite;
+}
+
+@keyframes hollow-torso {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.85);
+  }
+}
+
+@keyframes hollow-shoulder-l {
+  0%, 100% {
+    transform: rotate(15deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes hollow-shoulder-r {
+  0%, 100% {
+    transform: rotate(-15deg);
+  }
+  50% {
+    transform: rotate(-10deg);
+  }
+}
+
+@keyframes hollow-hip-l {
+  0%, 100% {
+    transform: rotate(-15deg);
+  }
+  50% {
+    transform: rotate(-10deg);
+  }
+}
+
+@keyframes hollow-hip-r {
+  0%, 100% {
+    transform: rotate(15deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+
+/* Chest-to-Wall Hold */
+.anim-ctw .torso {
+  animation: ctw-torso 2.2s ease-in-out infinite;
+}
+
+.anim-ctw .shoulder-l {
+  animation: ctw-shoulder-l 2.2s ease-in-out infinite;
+}
+
+.anim-ctw .elbow-l {
+  animation: ctw-elbow-l 2.2s ease-in-out infinite;
+}
+
+.anim-ctw .shoulder-r {
+  animation: ctw-shoulder-r 2.2s ease-in-out infinite;
+}
+
+.anim-ctw .elbow-r {
+  animation: ctw-elbow-r 2.2s ease-in-out infinite;
+}
+
+@keyframes ctw-torso {
+  0%, 100% {
+    transform: translateY(0) scaleY(1);
+  }
+  50% {
+    transform: translateY(-5px) scaleY(0.95);
+  }
+}
+
+@keyframes ctw-shoulder-l {
+  0%, 100% {
+    transform: rotate(-15deg);
+  }
+  50% {
+    transform: rotate(-12deg);
+  }
+}
+
+@keyframes ctw-elbow-l {
+  0%, 100% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(-8deg);
+  }
+}
+
+@keyframes ctw-shoulder-r {
+  0%, 100% {
+    transform: rotate(15deg);
+  }
+  50% {
+    transform: rotate(12deg);
+  }
+}
+
+@keyframes ctw-elbow-r {
+  0%, 100% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(8deg);
+  }
+}
+
+/* Accessibility: Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .anim-pull *,
+  .anim-pike *,
+  .anim-lunge *,
+  .anim-hollow *,
+  .anim-ctw * {
+    animation: none !important;
+  }
+}

@@ -4,10 +4,11 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 
 export function Login() {
-  const { signInWithEmail } = useAuth();
+  const { signInWithEmail, signInWithDevMode } = useAuth();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  const isDev = import.meta.env.DEV;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -18,6 +19,15 @@ export function Login() {
       setStatus('error');
     } else {
       setStatus('sent');
+    }
+  };
+
+  const handleDevLogin = async () => {
+    setStatus('sending');
+    const { error } = await signInWithDevMode();
+    if (error) {
+      setErrorMsg(error);
+      setStatus('error');
     }
   };
 
@@ -46,6 +56,19 @@ export function Login() {
       <Button type="submit" variant="primary" size="lg" disabled={status === 'sending'}>
         {status === 'sending' ? 'Enviando…' : 'Enviar link'}
       </Button>
+      {isDev && (
+        <div className="mt-4 space-y-2">
+          <p className="text-xs text-muted-foreground text-center">🔧 Modo desarrollo</p>
+          <Button
+            type="button"
+            onClick={handleDevLogin}
+            disabled={status === 'sending'}
+            className="w-full bg-gray-500 text-white hover:bg-gray-600"
+          >
+            Usar cuenta de test
+          </Button>
+        </div>
+      )}
     </form>
   );
 }

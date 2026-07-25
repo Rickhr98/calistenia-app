@@ -18,4 +18,43 @@ describe('HowToSheet', () => {
       expect.stringContaining('kick%20up%20to%20handstand%20wall%20tutorial')
     );
   });
+
+  it('renders animation when exerciseId is in EXERCISE_ANIMATIONS map', () => {
+    render(
+      <HowToSheet
+        open
+        onOpenChange={() => {}}
+        name="Pull-ups"
+        hw={{ c: ['Keep arms straight'], y: 'pull up tutorial' }}
+        exerciseId="pull"
+      />
+    );
+    expect(screen.getByTestId('stick-figure')).toBeInTheDocument();
+  });
+
+  it('does not render animation when exerciseId is not in map', () => {
+    render(
+      <HowToSheet
+        open
+        onOpenChange={() => {}}
+        name="Unknown Exercise"
+        hw={{ c: ['Some cue'], y: 'tutorial' }}
+        exerciseId="unknown_exercise"
+      />
+    );
+    expect(screen.queryByTestId('stick-figure')).not.toBeInTheDocument();
+  });
+
+  it('does not render animation when exerciseId is null', () => {
+    render(
+      <HowToSheet
+        open
+        onOpenChange={() => {}}
+        name="Exercise Without Animation"
+        hw={{ c: ['Some cue'], y: 'tutorial' }}
+        exerciseId={null}
+      />
+    );
+    expect(screen.queryByTestId('stick-figure')).not.toBeInTheDocument();
+  });
 });

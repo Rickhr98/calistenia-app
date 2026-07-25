@@ -25,6 +25,7 @@ describe('useAuth', () => {
     onAuthStateChangeMock.mockReset().mockReturnValue({ data: { subscription: { unsubscribe: vi.fn() } } });
     signInWithOtpMock.mockReset().mockResolvedValue({ error: null });
     signOutMock.mockReset().mockResolvedValue({ error: null });
+    localStorage.clear();
   });
 
   it('starts loading and resolves to no session', async () => {
@@ -54,5 +55,16 @@ describe('useAuth', () => {
       response = await result.current.signInWithEmail('me@example.com');
     });
     expect(response?.error).toBe('boom');
+  });
+
+  it('signInWithDevMode creates a dev mode session', async () => {
+    const { result } = renderHook(() => useAuth());
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.session).toBeNull();
+    await act(async () => {
+      await result.current.signInWithDevMode();
+    });
+    expect(result.current.session).not.toBeNull();
+    expect(result.current.session?.user.email).toBe('dev@localhost');
   });
 });
