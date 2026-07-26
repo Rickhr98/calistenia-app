@@ -12,13 +12,15 @@ export interface UseSettingsResult {
 
 const DEFAULT_EQUIP: EquipmentId[] = ['floor'];
 
+const isGuestUser = (userId: string | null) => userId?.startsWith('guest-') ?? false;
+
 export function useSettings(userId: string | null): UseSettingsResult {
   const [equipSet, setEquipSetState] = useState<EquipmentId[]>(DEFAULT_EQUIP);
   const [quickMode, setQuickModeState] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!userId) {
+    if (!userId || isGuestUser(userId)) {
       setEquipSetState(DEFAULT_EQUIP);
       setQuickModeState(false);
       setLoading(false);
@@ -46,7 +48,7 @@ export function useSettings(userId: string | null): UseSettingsResult {
 
   const persist = useCallback(
     async (next: { equip_set?: EquipmentId[]; quick_mode?: boolean }) => {
-      if (!userId) return;
+      if (!userId || isGuestUser(userId)) return;
       const { error } = await supabase
         .from('user_settings')
         .upsert({ user_id: userId, equip_set: equipSet, quick_mode: quickMode, ...next });

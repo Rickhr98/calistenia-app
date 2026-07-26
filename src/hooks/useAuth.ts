@@ -6,11 +6,49 @@ export interface UseAuthResult {
   session: Session | null;
   loading: boolean;
   signInWithEmail: (email: string) => Promise<{ error: string | null }>;
+  signInAsGuest: () => Promise<{ error: string | null }>;
   signInWithDevMode: () => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
 }
 
 const DEV_MODE_SESSION_KEY = '__devModeSession';
+const GUEST_MODE_SESSION_KEY = '__guestModeSession';
+
+function createGuestSession(): Session {
+  const guestUserId = 'guest-user-00000000000';
+  return {
+    access_token: 'guest-token',
+    token_type: 'bearer',
+    expires_in: 3600,
+    refresh_token: 'guest-refresh',
+    user: {
+      id: guestUserId,
+      aud: 'authenticated',
+      role: 'authenticated',
+      email: 'guest@localhost',
+      email_confirmed_at: new Date().toISOString(),
+      phone: '',
+      confirmed_at: new Date().toISOString(),
+      last_sign_in_at: new Date().toISOString(),
+      app_metadata: { provider: 'guest', providers: ['guest'] },
+      user_metadata: { full_name: 'Invitado' },
+      identities: [
+        {
+          id: guestUserId,
+          user_id: guestUserId,
+          identity_id: guestUserId,
+          identity_data: { email: 'guest@localhost', sub: guestUserId },
+          provider: 'guest',
+          created_at: new Date().toISOString(),
+          last_sign_in_at: new Date().toISOString(),
+        },
+      ],
+      is_anonymous: false,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    },
+  } as Session;
+}
 
 // Create a mock session for development
 function createDevModeSession(): Session {
@@ -54,7 +92,13 @@ export function useAuth(): UseAuthResult {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if dev mode session is stored
+    const storedGuestSession = localStorage.getItem(GUEST_MODE_SESSION_KEY);
+    if (storedGuestSession) {
+      setSession(createGuestSession());
+      setLoading(false);
+      return;
+    }
+
     const storedDevSession = localStorage.getItem(DEV_MODE_SESSION_KEY);
     if (storedDevSession) {
       setSession(createDevModeSession());
@@ -80,10 +124,30 @@ export function useAuth(): UseAuthResult {
     return { error: error?.message ?? null };
   }, []);
 
+  const signInAsGuest = useCallback(async () => {
+    try {
+      localStorage.setItem(GUEST_MODE_SESSION_KEY, 'true');
+      localStorage.removeItem(DEV_MODE_SESSION_KEY);
+      setSession(createGuestSession());
+      setLoading(false);
+      if (import.meta.env.MODE !== 'test' && typeof window !== 'undefined') {
+        window.location.reload();
+      }
+      return { error: null };
+    } catch (err) {
+      return { error: 'No se pudo entrar como invitado' };
+    }
+  }, []);
+
   const signInWithDevMode = useCallback(async () => {
     try {
       localStorage.setItem(DEV_MODE_SESSION_KEY, 'true');
+      localStorage.removeItem(GUEST_MODE_SESSION_KEY);
       setSession(createDevModeSession());
+      setLoading(false);
+      if (import.meta.env.MODE !== 'test' && typeof window !== 'undefined') {
+        window.location.reload();
+      }
       return { error: null };
     } catch (err) {
       return { error: 'Error en modo desarrollo' };
@@ -92,8 +156,10 @@ export function useAuth(): UseAuthResult {
 
   const signOut = useCallback(async () => {
     localStorage.removeItem(DEV_MODE_SESSION_KEY);
+    localStorage.removeItem(GUEST_MODE_SESSION_KEY);
+    setSession(null);
     await supabase.auth.signOut();
   }, []);
 
-  return { session, loading, signInWithEmail, signInWithDevMode, signOut };
+  return { session, loading, signInWithEmail, signInAsGuest, signInWithDevMode, signOut };
 }

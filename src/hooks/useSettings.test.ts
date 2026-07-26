@@ -29,6 +29,15 @@ describe('useSettings', () => {
     expect(result.current.quickMode).toBe(false);
   });
 
+  it('does not query Supabase for guest users', async () => {
+    const { result } = renderHook(() => useSettings('guest-user-00000000000'));
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.equipSet).toEqual(['floor']);
+    expect(result.current.quickMode).toBe(false);
+    expect(maybeSingleMock).not.toHaveBeenCalled();
+    expect(upsertMock).not.toHaveBeenCalled();
+  });
+
   it('loads existing settings for a user', async () => {
     maybeSingleMock.mockResolvedValue({ data: { equip_set: ['floor', 'wall'], quick_mode: true } });
     const { result } = renderHook(() => useSettings('user-1'));

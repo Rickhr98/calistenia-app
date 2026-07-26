@@ -4,7 +4,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 
 export function Login() {
-  const { signInWithEmail, signInWithDevMode } = useAuth();
+  const { signInWithEmail, signInAsGuest, signInWithDevMode } = useAuth();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
@@ -19,6 +19,17 @@ export function Login() {
       setStatus('error');
     } else {
       setStatus('sent');
+    }
+  };
+
+  const handleGuestLogin = async () => {
+    setStatus('sending');
+    const { error } = await signInAsGuest();
+    if (error) {
+      setErrorMsg(error);
+      setStatus('error');
+    } else {
+      setStatus('idle');
     }
   };
 
@@ -55,6 +66,9 @@ export function Login() {
       {status === 'error' && <p className="text-sm text-red-600">{errorMsg}</p>}
       <Button type="submit" variant="primary" size="lg" disabled={status === 'sending'}>
         {status === 'sending' ? 'Enviando…' : 'Enviar link'}
+      </Button>
+      <Button type="button" onClick={handleGuestLogin} disabled={status === 'sending'} className="w-full border border-line bg-surface text-ink">
+        Entrar como invitado
       </Button>
       {isDev && (
         <div className="mt-4 space-y-2">

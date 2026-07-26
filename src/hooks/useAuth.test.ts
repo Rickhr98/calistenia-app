@@ -67,4 +67,14 @@ describe('useAuth', () => {
     expect(result.current.session).not.toBeNull();
     expect(result.current.session?.user.email).toBe('dev@localhost');
   });
+
+  it('signInAsGuest creates a guest session', async () => {
+    const { result } = renderHook(() => useAuth());
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    await act(async () => {
+      await result.current.signInAsGuest();
+    });
+    expect(result.current.session).not.toBeNull();
+    expect(result.current.session?.user.email).toBe('guest@localhost');
+  });
 });
